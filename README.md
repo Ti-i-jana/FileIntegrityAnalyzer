@@ -9,11 +9,26 @@ It implements a C# console application that uploads and downloads files from One
 ## Project Structure
 
 FileIntegrityAnalyzer/
+
 │   FileIntegrityAnalyzer.sln
+
 │   FileIntegrityAnalyzer.csproj
+
 │   README.md
+
 │
-├───docs/                   
+
+├───docs/  
+
 │
-└───src/                    
+
+└───src/            
+
     ├── Program.cs
+
+    ├── AuthService.cs
+
+
+## AuthService 
+This helper class handles authentication with Microsoft Graph. It does so by using Device Code Flow which shows a code  in the console for login.
+It returns a ready to use GraphServiceClient for calling Microsoft Graph APIs.
