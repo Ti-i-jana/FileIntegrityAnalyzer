@@ -1,22 +1,30 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Graph;
 
 class Program
 {
     static async Task Main(string[] args)
     {
-        string filePath = "C:\\Users\\Tijana\\Desktop\\test.txt"; // Source file to be uploaded 
-        string folderName = "testFolder";
-        string destinationPath = "C:\\Users\\Tijana\\source\\repos\\FileIntegrityAnalyzer\\TestDir\\downloadedtest.txt";
+
+        var config = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .Build();
+
+        string sourcePath = config["Paths:SourceFile"]; // Source file to be uploaded 
+        string folderName = config["OneDrive:FolderName"];
+        string destinationPath = config["Paths:DestinationFile"];
+        
         var graphClient = await AuthService.GetGraphServiceClient();
         var uploader = new Uploader(graphClient);
         var downloader=new Downloader(graphClient);
 
-        await uploader.UploadFileAsync(filePath, folderName);
-        await downloader.DownloadFileAsync($"{folderName}/{Path.GetFileName(filePath)}",destinationPath);
+        await uploader.UploadFileAsync(sourcePath, folderName);
+        await downloader.DownloadFileAsync($"{folderName}/{Path.GetFileName(sourcePath)}",destinationPath);
 
-        var uploadedHash=IntegrityVerifier.ComputeSHA256Hash(filePath);
+        var uploadedHash=IntegrityVerifier.ComputeSHA256Hash(sourcePath);
         var downloadedHash = IntegrityVerifier.ComputeSHA256Hash(destinationPath);
 
         if(IntegrityVerifier.CompareSHA256Hash(uploadedHash, downloadedHash)){
@@ -27,8 +35,5 @@ class Program
             Console.WriteLine("Hashes don't match");
         }
 
-        //TODO: delete when everything works
-        var me = await graphClient.Me.GetAsync();
-        Console.WriteLine($"Hello, {me.DisplayName} ({me.UserPrincipalName})");
     }
 }
