@@ -27,6 +27,10 @@ FileIntegrityAnalyzer/
     ├── Program.cs
 
     ├── AuthService.cs
+    
+    ├── Uploader.cs
+
+    ├── Downloader.cs
 
 
 ## AuthService 
@@ -47,3 +51,14 @@ If it doesn’t exist, creates the folder.
 
 #### UploadFileAsync(string filePath, string folderName)
 Ensures the destination folder exists. Uploads the file to the specified folder. Logs time taken to upload and any errors.
+
+## Downloader
+The Downloader class handles downloading files from a user's OneDrive to a local destination path.
+
+### Key methods:
+
+#### InitializeMyDriveAsync()
+Gets the signed-in user’s OneDrive ID and stores it for use in other calls.
+
+#### DownloadFileAsync(string srcPath, string destPath)
+Checks if the destination directory exists, if not creates it. Downloads the file in the specified srcPath from the user's OneDrive to the specified local destination path.
