@@ -1,6 +1,8 @@
 ﻿using Microsoft.Graph;                  
 using Microsoft.Graph.Models;
 using System;
+using System.Diagnostics;
+using System.Globalization;
 using System.IO;                    
 using System.Threading.Tasks;
 
@@ -55,12 +57,19 @@ public class Downloader
     /// <param name="destPath">The destination file path.</param>
     public async Task DownloadFileAsync(string srcPath, string destPath)
     {
-        await InitializeMyDriveAsync();
+        var elapsedTime = Stopwatch.StartNew();
+
+        if (string.IsNullOrEmpty(_myDriveId))
+        {
+            await InitializeMyDriveAsync();
+        }
         string directoryPath = Path.GetDirectoryName(destPath);
         if (!string.IsNullOrEmpty(directoryPath) && !Directory.Exists(directoryPath)) {
             Console.WriteLine("Destination folder doesn't exist. Creating directory now..");
             Directory.CreateDirectory(directoryPath);
         }
+
+        
 
         try
         {
@@ -80,6 +89,11 @@ public class Downloader
         {
             Console.WriteLine($"Exception {ex.Message}");
             Console.WriteLine($"StackTrace: {ex.StackTrace}");
+        }
+        finally
+        {
+            elapsedTime.Stop();
+            Console.WriteLine($"Elapsed time: {elapsedTime.ElapsedMilliseconds} ms");
         }
 
     }
