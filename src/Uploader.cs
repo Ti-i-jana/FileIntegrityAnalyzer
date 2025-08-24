@@ -26,13 +26,27 @@ public class Uploader
     /// </summary>
     public async Task InitializeMyDriveAsync()
     {
-        var myDrive = await _graphClient.Me.Drive.GetAsync();
-        _myDriveId = myDrive.Id;
-       
+        try
+        {
+            var myDrive = await _graphClient.Me.Drive.GetAsync();
+            _myDriveId = myDrive.Id;
+        }
+        catch (ServiceException ex)
+        {
+            //Microsoft Graph API call fail
+            Console.WriteLine($"ServiceException {ex.Message}");
+            Console.WriteLine($"StackTrace: {ex.StackTrace}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Exception {ex.Message}");
+            Console.WriteLine($"StackTrace: {ex.StackTrace}");
+        }
     }
 
     /// <summary>
     /// Creates folder in user's OneDrive root if it doesn't exist
+    /// <param name="folderName">Name of folder to check if exists or create in root of OneDrive.</param>
     /// </summary>
     public async Task CreateFolderAsync(string folderName)
     {
@@ -86,6 +100,8 @@ public class Uploader
     /// Creates the folder the file should be stored in if it doesn't exist. Uploads the file to the OneDrive folder.
     /// Logs time taken to upload file and any Microsoft Graph API call falls as well as runtime errors.
     /// </summary>
+    /// <param name="filePath">Path of file to upload.</param>
+    /// <param name="folderName">The destination folder in OneDrive where the file will be uploaded.</param>
 
     public async Task UploadFileAsync(string filePath, string folderName)
     {
