@@ -6,12 +6,15 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        var graphClient = await AuthService.GetGraphServiceClient();
-        var uploader = new Uploader(graphClient);
         string filePath = "C:\\Users\\Tijana\\Desktop\\test.txt";
         string folderName = "testFolder";
-        await uploader.UploadFileAsync(filePath, folderName);
+        string destinationPath = "C:\\Users\\Tijana\\source\\repos\\FileIntegrityAnalyzer\\TestDir\\downloadedtest.txt";
+        var graphClient = await AuthService.GetGraphServiceClient();
+        var uploader = new Uploader(graphClient);
+        var downloader=new Downloader(graphClient);
 
+        await uploader.UploadFileAsync(filePath, folderName);
+        await downloader.DownloadFileAsync($"{folderName}/{Path.GetFileName(filePath)}",destinationPath);
 
 
         //TODO: delete when everything works
