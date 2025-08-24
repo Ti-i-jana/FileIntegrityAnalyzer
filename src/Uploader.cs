@@ -14,7 +14,11 @@ public class Uploader
 {
     private GraphServiceClient _graphClient;
     private string _myDriveId;
-    
+
+    /// <summary>
+    /// Initializes a new instance of the Uploader class.
+    /// </summary>
+    /// <param name="graphClient">An authenticated GraphServiceClient instance.</param>
     public Uploader(GraphServiceClient graphClient)
     {
         _graphClient = graphClient;
@@ -115,7 +119,7 @@ public class Uploader
 
             await _graphClient.Drives[_myDriveId].Root.ItemWithPath($"{folderName}/{Path.GetFileName(filePath)}").Content.PutAsync(fileStream); //uploads file to specified folder at specified path
 
-            Console.WriteLine("Finished upload");
+            Console.WriteLine($"Finished upload of {Path.GetFileName(filePath)}");
         }
         catch (ServiceException ex)
         {
