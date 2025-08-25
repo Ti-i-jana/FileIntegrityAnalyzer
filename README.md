@@ -90,7 +90,7 @@ Compares the hashes of two files and returns a boolean value.
 
 ## Analysis
 The experiments included uploading and downloading a txt, pdf, jpg and mp4 file of different sizes.
-The hashes matched in all conducted experiments except for the mp4 file which threw an exception of a timeout in the request.
+The hashes matched in all conducted experiments except for the mp4 file which threw an exception of a timeout in the request to upload the file.
 The differences in the different files included the time taken to upload and download the files which depended on the file size, and number of api requests(like to create a folder in OneDrive to store the file) before the actual api request to upload/download.
 
 
