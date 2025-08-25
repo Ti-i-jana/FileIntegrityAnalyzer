@@ -33,7 +33,7 @@ dotnet run --project .\FileIntegrityAnalyzer.csproj
 ```bash
 FileIntegrityAnalyzer
 ├── docs/                            # Documentation
-│   └── LabNotes.md                  # Lab notes
+│   └── LabNotes.pdf				# Lab notes
 ├── src/                             # Source code
 │   ├── Program.cs                   # Main entry point
 │   ├── AuthService.cs               # Handles authentication and Graph API client
