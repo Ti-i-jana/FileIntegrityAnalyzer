@@ -2,14 +2,20 @@
 using Azure.Identity;
 using System.Threading.Tasks;
 using System;
+using Microsoft.Extensions.Configuration;
 
 /// <summary>
 /// Handles Authentication and returns a GraphServiceClient for accessing Microsoft Graph APIs using device code flow.
 /// </summary>
 static class AuthService
 {
-    public static string clientID = "9efd73c8-a015-466e-98e1-433173eeff92";
-    public static string tenantID = "common";
+    private static IConfiguration config = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("secrets.json", optional: false, reloadOnChange: true)
+            .Build();
+
+    public static string clientID = config["AzureAd:ClientId"];
+    public static string tenantID = config["AzureAd:TenantId"];
     public static string[] scopes = new string[] {"User.Read","Files.ReadWrite"};
 
     /// <summary>

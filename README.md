@@ -23,7 +23,9 @@ dotnet build
 ```
 4. Configure path values in appsettings.json:
 
-5. Run app
+5. Configure ClientId and TenantId in a secrets.json file according to the secrets.json.example
+
+6. Run app
 ```bash
 dotnet run --project .\FileIntegrityAnalyzer.csproj
 ```
