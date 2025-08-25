@@ -88,6 +88,12 @@ Computes the SHA256 hash for the specified file and returns a byte array represe
 #### CompareSHA256Hash(byte[] uploadFile, byte[] downloadFile)
 Compares the hashes of two files and returns a boolean value.
 
+## Analysis
+The experiments included uploading and downloading a txt, pdf, jpg and mp4 file of different sizes.
+The hashes matched in all conducted experiments except for the mp4 file which threw an exception of a timeout in the request.
+The differences in the different files included the time taken to upload and download the files which depended on the file size, and number of api requests(like to create a folder in OneDrive to store the file) before the actual api request to upload/download.
+
+
 # Report
 
 - The hypothesis was confirmed which means that OneDrive preserves the integrity of the data. This was concluded by running multiple experiments by uploading and downloading a file from OneDrive and checking their SHA256 hashes which matched in all cases.
